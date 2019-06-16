@@ -67,6 +67,6 @@ def convert(tokens):
                 outq.append(stack.pop())
                 top = peek(stack)
             stack.append(token)
-    outq.extend(stack.reverse()) 
+    outq.extend(stack[::-1]) 
 
     return outq
