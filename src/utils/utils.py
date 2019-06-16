@@ -11,6 +11,9 @@ class Token:
     OPERATOR = "OPERATOR"  # operator
     LEFT_PARENTH = "("  # otwierający nawias
     RIGHT_PARENTH = ")"  # zamykający nawias
+    HIGH_PRECEDENCE = 2  # wysoka priorytetność wykonania działania (zarezerwowane dla potęgowania)
+    MIDDLE_PRECEDENCE = 1  # średnia priorytetność wykonania działania
+    LOW_PRECEDENCE = 0  # niska priorytetność wykonania działania
 
 #
 # Funkcja: isoperator
@@ -65,53 +68,64 @@ def to_number(buffer):
 def new_token(token_type, token_value):
     if token_type == Token.OPERATOR:
         if token_value in ('*', '/', '%'):
-            precedence = 2
+            precedence = Token.MIDDLE_PRECEDENCE
             associativity = 'left'
         elif token_value in ('+', '-'):
-            precedence = 3
+            precedence = Token.LOW_PRECEDENCE
             associativity = 'left'
         return {
             "type": token_type,
             "value": token_value,
             "precedence": precedence,
-            "associativity": associativity
+            "associativity": associativity  # dodana na przyszłośc, by można było dodać operator potęgowania
         }
     else:
         return {"type": token_type, "value": token_value}
 
 #
-# Funkcja: top
+# Funkcja: peek
 # ------------
-# funckcja pomocnicza przy pracy ze stosami - pokazuje element z samej góry 
+# funckcja pomocnicza przy pracy ze stosami - zwraca górni element ze stosu lub None, jeżeli stos jest pusty
 # (nie usuwając jak standardowa funkcja pop)
-#     [1, 2, 3, 4] => 4 a[-1]
+#     [1, 2, 3, 4] => 4
 #
 # argumenty:
 #     1) stack: <class 'int'> - stos
 #
 # zwraca:
-#     <class 'int'> - ostatni element stosu
+#     <class 'int'> - górni (ostatni) element stosu
 #
-def top(stack):
-    return stack[len(stack)-1] if len(stack) else None
-
 def peek(stack):
     return stack[-1] if stack else None
 
+#
+# Funkcja: greater_precedence
+# --------------------
+# wyznacza czy operator pierwszy ma pierwszenstwo nad operatorem drugim
+#     ({'type': 2, 'value': '-', 'precedence': 3, 'associativity': 'left'},
+#           {'type': 2, 'value': '*', 'precedence': 2, 'associativity': 'left'}) => False
+#
+# argumenty:
+#     1) op1: <class 'dict'> - pierwszy operator
+#     2) op2: <class 'dict'> - drugi operator
+#
+# zwraca:
+#     <class 'bool'> True | False
+#
 def greater_precedence(op1, op2):
-    return op1["precedence"] < op2["precedence"] 
+    return op1["precedence"] > op2["precedence"] 
     
 #
 # Funkcja: throw_error
 # --------------------
 # funkcja pomocnicza - wyrzuca pomyłkę i terminuje skrypt
-#     "Internall error has occured" => None (standardowe wyjście << "Error: Internal error has occured")
+#     "Internall error has occured" => (standardowe wyjście << "Error: Internal error has occured")
 #
 # argumenty:
 #     1) message <class 'str'> - powiadomienie z pomyłką
 #
 # zwraca:
-#     None
+#     Jeżeli wszystko poszło dobrze funkcja nie zwraca kontrolu do wywołującej funkcji
 #
 def throw_error(message):
     print("Error:", message)
