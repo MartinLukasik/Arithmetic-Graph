@@ -38,5 +38,5 @@ def tokenize(expr):
                 
     if len(buffer):
         tokens.append(new_token(Token.NUMBER, to_number(buffer)))
-                
+        
     return tokens

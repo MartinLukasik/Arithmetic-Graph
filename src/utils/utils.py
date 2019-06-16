@@ -9,8 +9,8 @@ class Token:
     NUMBER = 0  # liczba
     VARIABLE = 1  # zmienna
     OPERATOR = 2  # operator
-    LEFT_PARENTH = 4  # otwierający nawias
-    RIGHT_PARENTH = 5  # zamykający nawias
+    LEFT_PARENTH = 3  # otwierający nawias
+    RIGHT_PARENTH = 4  # zamykający nawias
 
 #
 # Funkcja: isoperator
@@ -94,6 +94,12 @@ def new_token(token_type, token_value):
 #
 def top(stack):
     return stack[len(stack)-1] if len(stack) else None
+
+def peek(stack):
+    return stack[-1] if stack else None
+
+def greater_precedence(op1, op2):
+    return op1["precedence"] < op2["precedence"] 
     
 #
 # Funkcja: throw_error
