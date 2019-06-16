@@ -6,11 +6,11 @@ import sys
 # przeztrzeń nazw dla konstant reprezentujacyh typy tokenów
 #
 class Token:
-    NUMBER = 0  # liczba
-    VARIABLE = 1  # zmienna
-    OPERATOR = 2  # operator
-    LEFT_PARENTH = 3  # otwierający nawias
-    RIGHT_PARENTH = 4  # zamykający nawias
+    NUMBER = "NUMBER"  # liczba
+    VARIABLE = "VARIABLE"  # zmienna
+    OPERATOR = "OPERATOR"  # operator
+    LEFT_PARENTH = "("  # otwierający nawias
+    RIGHT_PARENTH = ")"  # zamykający nawias
 
 #
 # Funkcja: isoperator

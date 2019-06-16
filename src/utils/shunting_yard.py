@@ -62,7 +62,7 @@ def convert(tokens):
         else:
             # Operator
             top = peek(stack)
-            while top is not None and top["value"] not in "()" and greater_precedence(top, token):
+            while top is not None and top["type"] not in "()" and greater_precedence(top, token):
                 outq.append(stack.pop())
                 top = peek(stack)
             stack.append(token)
