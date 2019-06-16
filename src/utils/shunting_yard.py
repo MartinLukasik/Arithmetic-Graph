@@ -48,6 +48,7 @@ from utils.utils import *
  
 def convert(tokens):
     outq, stack = [], []
+
     for token in tokens:
         if token["type"] is Token.NUMBER or token["type"] is Token.VARIABLE:
             outq.append(token)
@@ -66,7 +67,6 @@ def convert(tokens):
                 outq.append(stack.pop())
                 top = peek(stack)
             stack.append(token)
-    while peek(stack) is not None:
-        outq.append(stack.pop())
- 
+    outq.extend(stack.reverse()) 
+
     return outq
