@@ -1,3 +1,3 @@
 # Arithmetic Graph
 
-#### for more detail look at src/Index.ipynb
+#### for more details look at src/Index.ipynb
